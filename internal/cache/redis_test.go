@@ -29,8 +29,8 @@ func TestRedisCache_BalanceAndIdempotency(t *testing.T) {
 	}
 
 	// SetBalance + GetBalance
-	if err := c.SetBalance(ctx, accID, 150); err != nil {
-		t.Fatalf("SetBalance: %v", err)
+	if setErr := c.SetBalance(ctx, accID, 150); setErr != nil {
+		t.Fatalf("SetBalance: %v", setErr)
 	}
 	bal, ok, err = c.GetBalance(ctx, accID)
 	if err != nil || !ok || bal != 150 {
@@ -38,8 +38,8 @@ func TestRedisCache_BalanceAndIdempotency(t *testing.T) {
 	}
 
 	// InvalidateBalance
-	if err := c.InvalidateBalance(ctx, accID); err != nil {
-		t.Fatalf("InvalidateBalance: %v", err)
+	if invErr := c.InvalidateBalance(ctx, accID); invErr != nil {
+		t.Fatalf("InvalidateBalance: %v", invErr)
 	}
 	bal, ok, err = c.GetBalance(ctx, accID)
 	if err != nil || ok {
@@ -54,8 +54,8 @@ func TestRedisCache_BalanceAndIdempotency(t *testing.T) {
 
 	// SetIdempotency + GetIdempotency
 	payload := []byte(`{"transaction_id":"abc","new_balance":200}`)
-	if err := c.SetIdempotency(ctx, "deposit", "key1", payload); err != nil {
-		t.Fatalf("SetIdempotency: %v", err)
+	if setErr := c.SetIdempotency(ctx, "deposit", "key1", payload); setErr != nil {
+		t.Fatalf("SetIdempotency: %v", setErr)
 	}
 	raw, ok, err = c.GetIdempotency(ctx, "deposit", "key1")
 	if err != nil || !ok || string(raw) != string(payload) {
@@ -67,8 +67,8 @@ func TestRedisCache_BalanceAndIdempotency(t *testing.T) {
 	if ok {
 		t.Error("transfer:key1 should be empty")
 	}
-	if err := c.SetIdempotency(ctx, "transfer", "key1", []byte("transfer-payload")); err != nil {
-		t.Fatalf("SetIdempotency transfer: %v", err)
+	if setErr := c.SetIdempotency(ctx, "transfer", "key1", []byte("transfer-payload")); setErr != nil {
+		t.Fatalf("SetIdempotency transfer: %v", setErr)
 	}
 	raw, ok, _ = c.GetIdempotency(ctx, "transfer", "key1")
 	if !ok || string(raw) != "transfer-payload" {
@@ -93,7 +93,7 @@ func TestRedisCache_IdempotencyEmptyKey(t *testing.T) {
 	if err != nil || ok || raw != nil {
 		t.Errorf("GetIdempotency empty key: ok=%v", ok)
 	}
-	if err := c.SetIdempotency(ctx, "deposit", "", []byte("x")); err != nil {
-		t.Fatalf("SetIdempotency empty key: %v", err)
+	if setErr := c.SetIdempotency(ctx, "deposit", "", []byte("x")); setErr != nil {
+		t.Fatalf("SetIdempotency empty key: %v", setErr)
 	}
 }

@@ -60,4 +60,3 @@ func CodeOf(err error) Code {
 	}
 	return CodeInternal
 }
-

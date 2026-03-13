@@ -85,7 +85,7 @@ func (s *PaymentService) Deposit(ctx context.Context, accountID uuid.UUID, amoun
 				NewBalance    int64  `json:"new_balance"`
 			}
 			if json.Unmarshal(raw, &cached) == nil {
-				if id, err := uuid.Parse(cached.TransactionID); err == nil {
+				if id, parseErr := uuid.Parse(cached.TransactionID); parseErr == nil {
 					return id, cached.NewBalance, nil
 				}
 			}

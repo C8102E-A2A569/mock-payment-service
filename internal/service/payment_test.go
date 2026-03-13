@@ -75,8 +75,8 @@ func TestPaymentService_Transfer_SuccessAndInsufficientFunds(t *testing.T) {
 	}
 
 	// Пополняем счёт отправителя.
-	if _, _, err := svc.Deposit(ctx, from.ID, 200, ""); err != nil {
-		t.Fatalf("Deposit error: %v", err)
+	if _, _, depErr := svc.Deposit(ctx, from.ID, 200, ""); depErr != nil {
+		t.Fatalf("Deposit error: %v", depErr)
 	}
 
 	// Успешный перевод.
@@ -266,4 +266,3 @@ func TestPaymentService_Transfer_FailedIdempotency(t *testing.T) {
 		t.Errorf("both should be ErrInsufficientFunds: %v, %v", err1, err2)
 	}
 }
-
