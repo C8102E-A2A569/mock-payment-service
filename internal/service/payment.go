@@ -80,7 +80,10 @@ func (s *PaymentService) Deposit(ctx context.Context, accountID uuid.UUID, amoun
 	}
 	if s.cache != nil && idemKey != "" {
 		if raw, ok, _ := s.cache.GetIdempotency(ctx, "deposit", idemKey); ok {
-			var cached struct{ TransactionID string `json:"transaction_id"`; NewBalance int64 `json:"new_balance"` }
+			var cached struct {
+				TransactionID string `json:"transaction_id"`
+				NewBalance    int64  `json:"new_balance"`
+			}
 			if json.Unmarshal(raw, &cached) == nil {
 				if id, err := uuid.Parse(cached.TransactionID); err == nil {
 					return id, cached.NewBalance, nil
@@ -175,4 +178,3 @@ func (s *PaymentService) Transfer(ctx context.Context, fromID, toID uuid.UUID, a
 	}
 	return txID, fromBalance, toBalance, nil
 }
-

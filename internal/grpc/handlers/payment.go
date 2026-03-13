@@ -82,7 +82,7 @@ func (h *PaymentHandler) Transfer(ctx context.Context, req *pb.TransferRequest) 
 		return nil, toStatusError(err)
 	}
 	return &pb.TransferResponse{
-		TransactionId: txID.String(),
+		TransactionId:  txID.String(),
 		FromNewBalance: fromBalance,
 		ToNewBalance:   toBalance,
 		Success:        true,
@@ -111,4 +111,3 @@ func toStatusError(err error) error {
 	}
 	return status.Error(codes.Internal, "internal error")
 }
-

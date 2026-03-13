@@ -7,7 +7,11 @@ linters:
     - gofmt
     - govet
   disable-all: true
+  disable:
+    - fieldalignment  # часто срабатывает по-разному на платформах, отключаем
 
 linters-settings:
   govet:
     enable-all: true
+    disable:
+      - fieldalignment

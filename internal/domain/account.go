@@ -16,9 +16,9 @@ type Account struct {
 
 // Transaction — запись об операции по счёту (пополнение или часть перевода).
 type Transaction struct {
-	Amount    int64       // всегда положительное
+	Amount    int64 // всегда положительное
 	CreatedAt time.Time
-	RelatedID *uuid.UUID  // для transfer — id парной операции
+	RelatedID *uuid.UUID // для transfer — id парной операции
 	ID        uuid.UUID
 	AccountID uuid.UUID
 	Type      OperationType
