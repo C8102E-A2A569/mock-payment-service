@@ -7,10 +7,10 @@ import (
 
 // MockEventProducer записывает вызовы событий для проверки в тестах (Kafka-слой).
 type MockEventProducer struct {
-	mu                   sync.Mutex
-	PaymentCompleted     []PaymentCompletedCall
-	TransferCompleted    []TransferCompletedCall
-	TransferFailed       []TransferFailedCall
+	PaymentCompleted  []PaymentCompletedCall
+	TransferCompleted []TransferCompletedCall
+	TransferFailed    []TransferFailedCall
+	mu                sync.Mutex
 }
 
 type PaymentCompletedCall struct {

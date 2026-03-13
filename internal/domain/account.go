@@ -8,20 +8,20 @@ import (
 
 // Account — счёт пользователя. Баланс в копейках (минимальные единицы).
 type Account struct {
+	CreatedAt time.Time
 	ID        uuid.UUID
 	UserID    string
 	Balance   int64
-	CreatedAt time.Time
 }
 
 // Transaction — запись об операции по счёту (пополнение или часть перевода).
 type Transaction struct {
-	ID         uuid.UUID
-	AccountID  uuid.UUID
-	Type       OperationType
-	Amount     int64     // всегда положительное
-	RelatedID  *uuid.UUID // для transfer — id парной операции
-	CreatedAt  time.Time
+	CreatedAt time.Time
+	Amount    int64 // всегда положительное
+	ID        uuid.UUID
+	AccountID uuid.UUID
+	Type      OperationType
+	RelatedID *uuid.UUID // для transfer — id парной операции
 }
 
 // OperationType — тип операции в истории.

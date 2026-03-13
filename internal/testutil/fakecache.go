@@ -9,9 +9,9 @@ import (
 
 // FakeCache — in-memory реализация PaymentCache для тестов (Redis-логика: кэш баланса и идемпотентность).
 type FakeCache struct {
-	mu          sync.Mutex
 	balance     map[uuid.UUID]int64
 	idempotency map[string][]byte
+	mu          sync.Mutex
 }
 
 // NewFakeCache создаёт кэш для тестов.

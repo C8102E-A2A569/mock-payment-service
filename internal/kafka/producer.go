@@ -36,32 +36,32 @@ func (p *Producer) Close() error {
 }
 
 type paymentCompletedEvent struct {
-	EventID      string    `json:"event_id"`
-	Type         string    `json:"type"`
-	AccountID    string    `json:"account_id"`
-	TransactionID string   `json:"transaction_id"`
-	Amount       int64     `json:"amount"`
-	Timestamp    time.Time `json:"timestamp"`
+	Amount        int64     `json:"amount"`
+	Timestamp     time.Time `json:"timestamp"`
+	EventID       string    `json:"event_id"`
+	Type          string    `json:"type"`
+	AccountID     string    `json:"account_id"`
+	TransactionID string    `json:"transaction_id"`
 }
 
 type transferCompletedEvent struct {
+	Amount        int64     `json:"amount"`
+	Timestamp     time.Time `json:"timestamp"`
 	EventID       string    `json:"event_id"`
 	Type          string    `json:"type"`
 	FromAccountID string    `json:"from_account_id"`
 	ToAccountID   string    `json:"to_account_id"`
 	TransactionID string    `json:"transaction_id"`
-	Amount        int64     `json:"amount"`
-	Timestamp     time.Time `json:"timestamp"`
 }
 
 type transferFailedEvent struct {
+	Amount        int64     `json:"amount"`
+	Timestamp     time.Time `json:"timestamp"`
 	EventID       string    `json:"event_id"`
 	Type          string    `json:"type"`
 	FromAccountID string    `json:"from_account_id"`
 	ToAccountID   string    `json:"to_account_id"`
-	Amount        int64     `json:"amount"`
 	Reason        string    `json:"reason"`
-	Timestamp     time.Time `json:"timestamp"`
 }
 
 // PublishPaymentCompleted публикует событие успешного пополнения.
@@ -124,4 +124,3 @@ func (p *Producer) send(ctx context.Context, payload any) error {
 func newEventID() string {
 	return time.Now().UTC().Format(time.RFC3339Nano)
 }
-
