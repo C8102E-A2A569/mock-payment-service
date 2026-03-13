@@ -1,0 +1,24 @@
+# Пример конфигурации. Скопируйте в config.yaml и при необходимости измените.
+# В Docker переменные задаются через docker-compose (env), этот файл можно не копировать.
+
+server:
+  grpc_port: 50051
+
+db:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: ""   # задайте пароль или используйте переменную DB_PASSWORD
+  dbname: payments
+  sslmode: disable
+
+kafka:
+  brokers:
+    - localhost:9092
+  topic_payment_events: payment_events
+
+redis:
+  addr: localhost:6379
+  password: ""
+  balance_ttl: 5m
+  idempotency_ttl: 24h

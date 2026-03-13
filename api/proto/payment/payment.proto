@@ -1,0 +1,53 @@
+syntax = "proto3";
+package payment;
+option go_package = "new-project/api/proto/payment;payment";
+
+service PaymentService {
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
+  rpc Deposit(DepositRequest) returns (DepositResponse);
+  rpc Transfer(TransferRequest) returns (TransferResponse);
+}
+
+message CreateAccountRequest {
+  string user_id = 1;  // внешний идентификатор пользователя для тестов
+}
+
+message CreateAccountResponse {
+  string account_id = 1;
+  int64 balance = 2;   // в копейках/минимальных единицах
+}
+
+message GetBalanceRequest {
+  string account_id = 1;
+}
+
+message GetBalanceResponse {
+  string account_id = 1;
+  int64 balance = 2;
+}
+
+message DepositRequest {
+  string account_id = 1;
+  int64 amount = 2;    // в копейках
+  string idempotency_key = 3;  // опционально, для идемпотентности
+}
+
+message DepositResponse {
+  string transaction_id = 1;
+  int64 new_balance = 2;
+}
+
+message TransferRequest {
+  string from_account_id = 1;
+  string to_account_id = 2;
+  int64 amount = 3;
+  string idempotency_key = 4;
+}
+
+message TransferResponse {
+  string transaction_id = 1;
+  int64 from_new_balance = 2;
+  int64 to_new_balance = 3;
+  bool success = 4;    // false при недостатке средств
+}

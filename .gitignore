@@ -1,0 +1,38 @@
+# Binaries and build
+/bin/
+*.exe
+*.dll
+*.so
+*.dylib
+server
+
+# Go
+/vendor/
+*.test
+*.out
+coverage.html
+coverage.txt
+
+# Local config with secrets (use config.example.yaml as template)
+configs/config.yaml
+.env
+.env.local
+*.env
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Docker (optional)
+# docker-compose.override.yml
+
+# Temporary
+tmp/
+temp/
+*.log
+*.tmp

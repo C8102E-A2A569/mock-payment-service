@@ -1,0 +1,93 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: deployments/docker/Dockerfile
+    container_name: mock-payment-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      redis:
+        condition: service_started
+    environment:
+      # gRPC
+      GRPC_PORT: "50051"
+      # DB
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: payments
+      DB_SSLMODE: disable
+      # Kafka
+      KAFKA_BROKERS: kafka:9092
+      KAFKA_TOPIC_PAYMENT_EVENTS: payment_events
+      # Redis (на следующих этапах)
+      REDIS_ADDR: redis:6379
+    ports:
+      - "50051:50051"
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: mock-payment-postgres
+    environment:
+      POSTGRES_DB: payments
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d payments"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: mock-payment-redis
+    ports:
+      - "6379:6379"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: mock-payment-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: mock-payment-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    ports:
+      - "9092:9092"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: mock-payment-kafka-ui
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local-kafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres-data:
+
