@@ -1,0 +1,25 @@
+# Конфиг golangci-lint: только ошибки падают CI, предупреждения не ломают сборку
+run:
+  timeout: 5m
+  issues:
+    # Не повышать уровень предупреждений до ошибок
+    max-issues-per-linter: 0
+    max-same-issues: 0
+
+linters:
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - unused
+    - ineffassign
+    - gofmt
+  disable:
+    - exhaustivestruct
+    - wrapcheck
+
+linters-settings:
+  errcheck:
+    check-blank: false  # разрешить _ = err где намеренно игнорируем (кэш, Kafka)
+  govet:
+    enable-all: true

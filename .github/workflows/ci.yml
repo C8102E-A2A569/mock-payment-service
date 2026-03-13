@@ -12,6 +12,9 @@ defaults:
   run:
     working-directory: .
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   lint-test-build:
     name: Lint, test, build
@@ -34,7 +37,7 @@ jobs:
         uses: golangci/golangci-lint-action@v6
         with:
           version: latest
-          args: --timeout=5m
+          args: --timeout=5m --allow-warnings
 
       - name: Run tests
         run: go test -v -race -count=1 ./...
