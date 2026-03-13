@@ -14,19 +14,23 @@ type MockEventProducer struct {
 }
 
 type PaymentCompletedCall struct {
-	AccountID, TxID string
-	Amount         int64
+	Amount    int64
+	AccountID string
+	TxID      string
 }
 
 type TransferCompletedCall struct {
-	FromAccountID, ToAccountID, TxID string
-	Amount                           int64
+	Amount        int64
+	FromAccountID string
+	ToAccountID   string
+	TxID          string
 }
 
 type TransferFailedCall struct {
-	FromAccountID, ToAccountID string
-	Amount                     int64
-	Reason                     string
+	Amount        int64
+	FromAccountID string
+	ToAccountID   string
+	Reason        string
 }
 
 func (m *MockEventProducer) PublishPaymentCompleted(ctx context.Context, accountID, txID string, amount int64) error {

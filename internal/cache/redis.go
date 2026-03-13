@@ -12,9 +12,9 @@ import (
 
 // RedisCache — кэш балансов и идемпотентности в Redis.
 type RedisCache struct {
-	client        *redis.Client
-	balanceTTL   time.Duration
+	balanceTTL     time.Duration
 	idempotencyTTL time.Duration
+	client         *redis.Client
 }
 
 // NewRedisCache создаёт кэш с заданными TTL.

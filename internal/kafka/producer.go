@@ -36,8 +36,8 @@ func (p *Producer) Close() error {
 }
 
 type paymentCompletedEvent struct {
-	Amount        int64     `json:"amount"`
 	Timestamp     time.Time `json:"timestamp"`
+	Amount        int64     `json:"amount"`
 	EventID       string    `json:"event_id"`
 	Type          string    `json:"type"`
 	AccountID     string    `json:"account_id"`
@@ -45,8 +45,8 @@ type paymentCompletedEvent struct {
 }
 
 type transferCompletedEvent struct {
-	Amount        int64     `json:"amount"`
 	Timestamp     time.Time `json:"timestamp"`
+	Amount        int64     `json:"amount"`
 	EventID       string    `json:"event_id"`
 	Type          string    `json:"type"`
 	FromAccountID string    `json:"from_account_id"`
@@ -55,8 +55,8 @@ type transferCompletedEvent struct {
 }
 
 type transferFailedEvent struct {
-	Amount        int64     `json:"amount"`
 	Timestamp     time.Time `json:"timestamp"`
+	Amount        int64     `json:"amount"`
 	EventID       string    `json:"event_id"`
 	Type          string    `json:"type"`
 	FromAccountID string    `json:"from_account_id"`

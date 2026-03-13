@@ -13,9 +13,9 @@ import (
 // Config — конфигурация приложения (сервер, БД, Kafka, Redis).
 type Config struct {
 	Server ServerConfig `yaml:"server"`
+	Redis  RedisConfig  `yaml:"redis"`
 	DB     DBConfig     `yaml:"db"`
 	Kafka  KafkaConfig  `yaml:"kafka"`
-	Redis  RedisConfig  `yaml:"redis"`
 }
 
 // ServerConfig — порт gRPC-сервера.
@@ -35,16 +35,16 @@ type DBConfig struct {
 
 // KafkaConfig — брокеры и топик для событий платежей.
 type KafkaConfig struct {
-	Brokers           []string `yaml:"brokers"`
-	TopicPaymentEvents string `yaml:"topic_payment_events"`
+	TopicPaymentEvents string   `yaml:"topic_payment_events"`
+	Brokers            []string `yaml:"brokers"`
 }
 
 // RedisConfig — адрес, пароль и TTL для кэша и идемпотентности.
 type RedisConfig struct {
-	Addr        string        `yaml:"addr"`
-	Password    string        `yaml:"password"`
-	BalanceTTL  time.Duration `yaml:"balance_ttl"`
+	BalanceTTL     time.Duration `yaml:"balance_ttl"`
 	IdempotencyTTL time.Duration `yaml:"idempotency_ttl"`
+	Addr           string        `yaml:"addr"`
+	Password       string        `yaml:"password"`
 }
 
 // Load читает конфиг из YAML-файла и переопределяет значения из переменных окружения.
@@ -77,7 +77,7 @@ func defaultConfig() *Config {
 			SSLMode: "disable",
 		},
 		Kafka: KafkaConfig{
-			Brokers:           []string{"localhost:9092"},
+			Brokers:            []string{"localhost:9092"},
 			TopicPaymentEvents: "payment_events",
 		},
 		Redis: RedisConfig{
