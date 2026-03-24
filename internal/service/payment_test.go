@@ -94,7 +94,6 @@ func TestPaymentService_Transfer_SuccessAndInsufficientFunds(t *testing.T) {
 	}
 }
 
-
 func TestPaymentService_Deposit_PublishesPaymentCompleted(t *testing.T) {
 	ctx := context.Background()
 	repo := testutil.NewFakeRepo()
