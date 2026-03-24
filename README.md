@@ -36,8 +36,6 @@ grpcurl -plaintext -d '{"account_id": "<uuid>", "amount": 1000}' localhost:50051
 grpcurl -plaintext -d '{"from_account_id": "<uuid1>", "to_account_id": "<uuid2>", "amount": 100}' localhost:50051 payment.PaymentService/Transfer
 ```
 
-Остановка: `docker compose -f deployments/docker-compose.yml down`
-
 Kafka UI: http://localhost:8090
 
 ---
