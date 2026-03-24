@@ -5,7 +5,6 @@ import (
 	"sync"
 )
 
-
 type MockEventProducer struct {
 	PaymentCompleted  []PaymentCompletedCall
 	TransferCompleted []TransferCompletedCall

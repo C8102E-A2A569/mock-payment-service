@@ -161,12 +161,12 @@ func TestPaymentService_GetBalance_CacheHit(t *testing.T) {
 	acc, _ := svc.CreateAccount(ctx, "u1")
 	_, _, _ = svc.Deposit(ctx, acc.ID, 200, "")
 
-	
+
 	bal, err := svc.GetBalance(ctx, acc.ID)
 	if err != nil || bal != 200 {
 		t.Fatalf("first GetBalance: %v, %d", err, bal)
 	}
-	
+
 	repo.Accounts[acc.ID].Balance = 999
 	bal2, err := svc.GetBalance(ctx, acc.ID)
 	if err != nil || bal2 != 200 {
@@ -197,7 +197,7 @@ func TestPaymentService_Deposit_Idempotency(t *testing.T) {
 	if bal1 != 100 {
 		t.Errorf("balance=%d", bal1)
 	}
-	
+
 	if repo.Accounts[acc.ID].Balance != 100 {
 		t.Errorf("repo balance should be 100 (one deposit), got %d", repo.Accounts[acc.ID].Balance)
 	}
@@ -252,7 +252,7 @@ func TestPaymentService_Transfer_FailedIdempotency(t *testing.T) {
 	if err2 == nil {
 		t.Fatal("expected error again (idempotent failure)")
 	}
-	
+
 	if !errors.Is(err1, repository.ErrInsufficientFunds) || !errors.Is(err2, repository.ErrInsufficientFunds) {
 		t.Errorf("both should be ErrInsufficientFunds: %v, %v", err1, err2)
 	}
