@@ -41,6 +41,10 @@ jobs:
         working-directory: ${{ steps.gomod.outputs.dir }}
         run: go mod download
 
+      - name: Format
+        working-directory: ${{ steps.gomod.outputs.dir }}
+        run: gofmt -w ./...
+
       - name: golangci-lint
         working-directory: ${{ steps.gomod.outputs.dir }}
         run: go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8 run --timeout=5m

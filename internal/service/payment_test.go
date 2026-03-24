@@ -160,7 +160,6 @@ func TestPaymentService_GetBalance_CacheHit(t *testing.T) {
 	acc, _ := svc.CreateAccount(ctx, "u1")
 	_, _, _ = svc.Deposit(ctx, acc.ID, 200, "")
 
-
 	bal, err := svc.GetBalance(ctx, acc.ID)
 	if err != nil || bal != 200 {
 		t.Fatalf("first GetBalance: %v, %d", err, bal)
